@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thời khóa biểu</title>
+        <link rel="shortcut icon"
+            href="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css_html/admin.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <img src="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png"
+                alt="logo" id="logo">
+
+            <a class="navbar-brand" href="/teacher_all_section/home_page.html">Trang chủ</a>
+
+            <a class="nav-link admin none now" href="/teacher_all_section/management_course/all_course.html">Khóa
+                học</a>
+            <a class="nav-link admin none" href="/teacher_all_section//management_course/all_student.html">Sinh viên</a>
+            <a class="nav-link admin none" href="/teacher_all_section/management_course/all_teacher.html">Giảng viên</a>
+
+            <div class="userbutton-container">
+                <span class="userbutton">
+                    <a class="nav-link staff none user">
+                        <img class="rounded-circle" src="/image/anonymous.png" width="35px">
+                    </a>
+                </span>
+            </div>
+            <a id="option"> <i class="fa-solid fa-bars" style="padding-left: 920px;"></i></a>
+        </nav>
+        <div id="myModal" class="modal">
+            <div class="container rounded bg-white mt-5 mb-5">
+                <div>
+                    <div class="p-3 py-5" style="padding-top: 1rem !important; padding-bottom: 1rem !important;">
+                        <a href="/teacher_all_section/profile_for_all/profile.html" class="option" id="profile">Thông
+                            tin cá nhân</a>
+                        <br>
+                        <a href="/teacher_all_section/Home.html" class="option" id="logout">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="myDiv" class="grid container" style="--bs-columns: 18; --bs-gap: .5rem; border-bottom: 0.05px solid;">
+            <br>
+            <h2>Môn học</h2>
+            <br><br>
+
+            <div id="myInput" class="input">
+                <div class="container rounded bg-white mt-5 mb-5">
+                    <div class="close">&times;</div>
+                    <div>
+                        <br>
+                        <h2 style="color: grey;">Thêm môn học</h2>
+                        <br>
+                        <div class="p-3 py-5" style="padding-top: 0rem !important;">
+                            <div class="mt-3">
+                                <div class="col-md-12"><label class="labels">Tên môn học</label><input type="text"
+                                        class="form-control" value="" id="name_in"></div>
+                                <div class="col-md-12"><label class="labels">Mã môn</label><input type="text"
+                                        class="form-control" value="" id="id"></div>
+
+                                <div class="col-md-12"><label class="labels">Tín chỉ</label><select class="form-control"
+                                        id="sex">
+                                        <option value="">--chọn--</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select></div>
+                                <h4>Lịch học</h4>
+                                <div class="col-md-12"><label class="labels">Thứ</label><input type="text"
+                                        class="form-control" value="" id="day"></div>
+                                <div class="col-md-12"><label class="labels">Tiết</label><input type="text"
+                                        class="form-control" value="" id="lesson_time"
+                                        placeholder="VD: 1-3: tiết 1 tới tiết 3"></div>
+                            </div>
+                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button"
+                                    id="btnConfirm">Thêm</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="courseDetails"></div>
+            <div style="padding: 40px;">
+                <h2 style="text-align: center; color: rgb(41, 39, 39);">Danh sách sinh viên</h2>
+                <table id="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px; text-align: center;">STT</th>
+                            <th style="width: 300px; text-align: center;">Họ và tên</th>
+                            <th style="width: 60px; text-align: center;">Điểm số</th>
+                            <th style="width: 60px; text-align: center; background-color: white;"></th>
+                        </tr>
+                        <thead>
+                        <tbody id="data">
+                        </tbody>
+                </table>
+            </div>
+
+        </div>
+    </body>
+
+    <script src="/teacher_all_section/logout.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-analytics.js";
+        import { getDatabase, ref, set, child, get, remove, push } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsfqC3q_PzXZZOAksa2JXva6I8cIJnHBY",
+            authDomain: "advancedprogrammingassig-ff7c2.firebaseapp.com",
+            databaseURL: "https://advancedprogrammingassig-ff7c2-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "advancedprogrammingassig-ff7c2",
+            storageBucket: "advancedprogrammingassig-ff7c2.appspot.com",
+            messagingSenderId: "284171849969",
+            appId: "1:284171849969:web:9e852a830806ad97871950",
+            measurementId: "G-VVCXTQCT7B"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase();
+
+        let key = JSON.parse(localStorage.getItem('key'));
+        //let config = JSON.parse(localStorage.getItem('config'));
+        //console.log(key);
+        function storeStudentsList(studentsList) {
+            set(ref(db, 'management/coursesList/' + key + '/studentsList'), {
+                studentsList: studentsList
+            });
+        }
+        async function printStudentsList(update) {
+            const dbRef = ref(db);
+
+            if (!update) {
+                get(child(dbRef, `management/coursesList/${key}`)).then((snapshot) => {
+                    document.getElementById("courseDetails").innerHTML += `<div>Số tín chỉ: ${snapshot.val().credits}</div> 
+                                                                    <div id ="sche">Lịch học: ${snapshot.val().schedule.day}</div>
+                                                                    <div>Tiết: ${snapshot.val().schedule.time}</div>`;
+                });
+
+                get(child(dbRef, `management/coursesList/${key}/teacher`)).then((snapshot) => {
+                    let teacherName;
+                    const tRef = ref(db, `management/teachersList/${snapshot.val()}/profile`);
+                    console.log(snapshot.val());
+                    // Get the teacher's name using another GET request
+                    get(tRef).then((tsnap) => {
+                        console.assert(tsnap.exists(), "The Teacher doesn't exist!");
+
+                        teacherName = tsnap.val().name;
+                        console.log(tsnap.val().schedule);
+                        //document.getElementById("courseInfo").innerHTML += `<p>Course Name: ${snapshot.val().courseName}</p>`;
+                        document.getElementById("courseDetails").innerHTML += `<div>Giáo viên: ${teacherName}</div>`;
+                    });
+                });
+            }
+
+
+            get(child(dbRef, `management/coursesList/${key}/studentsList`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    let listStudents = snapshot.val();
+
+                    const table = document.getElementById("table");
+                    const tbody = document.getElementById("data");
+
+                    for (let studentId in listStudents) {
+                        if (listStudents.hasOwnProperty(studentId) && !update) {
+                            let studentDetails = listStudents[studentId];
+                            const row = document.createElement("tr");
+                            row.innerHTML += `<td>${studentDetails.name}</td>
+                                    <td>${studentId}</td>
+                                    <td>${studentDetails.mark}</td>`;
+                            tbody.appendChild(row);
+
+                            if (update) {
+                                const commentsRef = ref(db, `management/coursesList/${key}/studentsList`);
+                                let dlb = document.createElement("td");
+                                const deleteButton = document.createElement('button');
+                                deleteButton.textContent = 'Delete';
+                                deleteButton.addEventListener('click', () => {
+                                    console.log(studentId);
+                                    remove(child(commentsRef, `${studentId}`));
+
+                                    let studentRef = ref(db, `management/all_students/${studentId}/course`);
+                                    remove(child(studentRef, `${key}`));
+                                    printStudentsList(true);
+                                });
+                                row.appendChild(dlb).appendChild(deleteButton);
+                            }
+
+                        }
+                    }
+
+                } else {
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+
+        }
+
+
+        let update_student = document.createElement('button');
+        update_student.innerHTML = "Chỉnh sửa";
+        //change_profile.href = "/teacher_all_section/change-info.html";
+        update_student.id = "update_student";
+        document.body.appendChild(update_student);
+        document.getElementById("update_student").onclick = function () {
+            if (!document.getElementById("add_student")) {
+                printStudentsList(true);
+
+                let add_student = document.createElement('button');
+                add_student.innerHTML = "Thêm sinh viên";
+                add_student.id = "add_student";
+                document.body.appendChild(add_student);
+
+                add_student.onclick = function () {
+                    console.log("OK");
+
+                    let input_place = document.createElement('input');
+                    input_place.type = "text";
+                    input_place.placeholder = "Mã số sinh viên";
+
+                    let submit_button = document.createElement('button');
+                    submit_button.innerText = "Thêm";
+                    document.body.appendChild(input_place);
+                    document.body.appendChild(submit_button);
+
+                    submit_button.onclick = function () {
+                        let id = input_place.value;
+
+                        if (id == "") {
+                            alert("Bạn chưa nhập thông tin!");
+                        }
+                        else {
+                            let studentName;
+                            const dbRef = ref(db);
+                            get(child(dbRef, `management/all_students/${id}`)).then((snapshot) => {
+                                if (snapshot.exists()) {
+                                    get(child(dbRef, `management/all_students/${id}/profile`)).then((childSnapshot) => {
+                                        studentName = childSnapshot.val().name;
+                                        console.log(childSnapshot.val().name);
+
+                                    });
+
+                                    get(child(dbRef, `management/all_students/${id}/all_course`)).then((childSnapshot) => {
+                                        let courses = Object.keys(childSnapshot.val() || {});;
+                                        console.log(courses);
+
+                                        for (let i in courses) {
+                                            // if(can_add){
+                                            console.log(courses[i]);
+                                            get(child(dbRef, `management/coursesList/${courses[i]}/schedule`)).then((ssnap) => {
+                                                let timeA = ssnap.val().time.split('-').map(Number);
+                                                console.log(timeA);
+                                                get(child(dbRef, `management/coursesList/${key}`)).then((schedsapshot) => {
+                                                    if (ssnap.val().day == schedsapshot.val().schedule.day) {
+                                                        alert("Xác nhận thêm ?");
+                                                        location.reload();
+                                                    }
+                                                    else {
+                                                        let timeB = schedsapshot.val().schedule.time.split('-').map(Number);
+                                                        if (timeA[0] > timeB[1] || timeA[1] < timeB[0]);
+                                                        alert("Không thể thêm vì trùng lịch");
+                                                        location.reload();
+                                                    }
+                                                });
+
+                                            });
+                                            //}
+                                        }
+
+                                    });
+
+                                    get(child(dbRef, `management/all_students/${id}/course/${key}`)).then((childSnapshot) => {
+                                        console.log(id);
+                                        if (childSnapshot.exists()) {
+                                            alert('Sinh viên này đã ở trong khóa học !!!');
+                                        }
+                                        else if (confirm("Xác nhận thêm sinh viên")) {
+                                            push(child(dbRef, `management/all_students/${id}/course/${key}`), { name: "New Course" });
+                                            set(child(dbRef, `management/coursesList/${key}/studentsList/${id}`), { name: studentName, mark: 0 })
+                                            printStudentsList(true);
+                                        }
+                                    });
+                                }
+                                else alert("Sinh viên này không tồn tại");
+                            });
+                        }
+
+                        input_place.value = "";
+                    }
+                }
+
+
+                let add_teacher = document.createElement('button');
+                add_teacher.innerHTML = "Bổ nhiệm giáo viên phụ trách";
+                add_teacher.id = "add_teacher";
+                document.body.appendChild(add_teacher);
+                add_teacher.onclick = function () {
+                    console.log("OK");
+
+                    let input_place = document.createElement('input');
+                    input_place.type = "text";
+                    input_place.placeholder = "Mã số nhân viên";
+
+                    let submit_button = document.createElement('button');
+                    submit_button.innerText = "Thêm";
+                    document.body.appendChild(input_place);
+                    document.body.appendChild(submit_button);
+
+                    submit_button.onclick = function () {
+                        let id = input_place.value;
+
+                        if (id == "") {
+                            alert("Bạn chưa nhập thông tin!");
+                        } else {
+                            let teacherName;
+                            const dbRef = ref(db);
+                            get(child(dbRef, `management/teachersList/${id}`)).then((snapshot) => {
+                                if (snapshot.exists()) {
+                                    get(child(dbRef, `management/teachersList/${id}/profile`)).then((childSnapshot) => {
+                                        teacherName = childSnapshot.val().name;
+                                        console.log(childSnapshot.val().name);
+
+                                    });
+
+                                    get(child(dbRef, `management/teachersList/${id}/all_course`)).then((childSnapshot) => {
+                                        let courses = Object.keys(childSnapshot.val() || {});;
+                                        console.log(courses);
+
+                                        for (let i in courses) {
+                                            // if(can_add){
+                                            console.log(courses[i]);
+                                            get(child(dbRef, `management/coursesList/${courses[i]}/schedule`)).then((ssnap) => {
+                                                let timeA = ssnap.val().time.split('-').map(Number);
+                                                console.log(timeA);
+                                                get(child(dbRef, `management/coursesList/${key}`)).then((schedsapshot) => {
+                                                    if (ssnap.val().day == schedsapshot.val().schedule.day) {
+                                                        alert("Không thể thêm vì trùng lịch");
+                                                        location.reload();
+                                                    }
+                                                    else {
+                                                        let timeB = schedsapshot.val().schedule.time.split('-').map(Number);
+                                                        if (timeA[0] > timeB[1] || timeA[1] < timeB[0]);
+                                                        alert("Không thể thêm vì trùng lịch");
+                                                        location.reload();
+                                                    }
+                                                });
+
+                                            });
+                                            //}
+                                        }
+
+                                    });
+
+                                    //if(can_add){
+                                    get(child(dbRef, `management/teachersList/${id}/course/${key}`)).then((childSnapshot) => {
+                                        console.log(id);
+                                        if (childSnapshot.exists()) {
+                                            alert('Giáo viên đang giảng dạy môn này !!!');
+                                        }
+                                        else if (confirm("Xác nhận thêm giáo viên")) {
+                                            push(child(dbRef, `management/teachersList/${id}/all_course/${key}`), { name: "New Course" });
+                                            set(child(dbRef, `management/coursesList/${key}/teacher`), id);
+                                        }
+                                    });
+                                    // } 
+                                    // else aler("Không thể thêm vì trùng lịch")
+                                }
+                                else alert("Giáo viên này không tồn tại");
+                            });
+                        }
+                    }
+
+                }
+
+                let saveAll = document.createElement('button');
+                saveAll.innerText = "Hoàn tất";
+                saveAll.onclick = function () {
+                    location.reload();
+                }
+
+                document.body.appendChild(saveAll);
+            }
+        }
+
+
+
+        let see_all_document = document.createElement('a');
+        see_all_document.innerHTML = "Xem tất cả tài liệu";
+
+        see_all_document.id = "document";
+        document.body.appendChild(see_all_document);
+        document.getElementById("document").onclick = function () {
+            window.location.href = "/teacher_all_section/subject_for_all/document.html"
+        }
+
+        printStudentsList(false);
+
+    </script>
+
+    </body>
+
+</html>

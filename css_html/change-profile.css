@@ -1,0 +1,122 @@
+body {
+    background: #F8F9FA
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: #0388B4;
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #015672
+}
+
+.profile-button:focus {
+    background: #0388B4;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #0388B4;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #0388B4;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+
+.img{
+    position: static;
+    width: 100%;
+    height: auto;
+}
+
+.navbar .navbar-brand {
+    margin-right: 20px;
+}
+.navbar,.navbar-expand-lg, .navbar-light, .bg-light{
+    background-color: #0388B4 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0px;
+}
+.navbar-brand, .nav-link{
+    color: #212529;
+}
+.navbar-brand,.nav-link:hover{
+    color:#fff!important;
+}
+
+
+.modal{
+    display: none; 
+    position: fixed; 
+    z-index: 0; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal .container {
+    background-color: #fefefe;
+    margin: auto;
+    width: 50%;
+
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.mt-5, .my-5 {
+    margin-top: 2rem !important;
+}
+.border-right {
+    border-right: 1px solid #dee2e6 !important;
+}
+.now{
+    color: #fefefe;
+    background-color: #044CC8;
+    border-bottom: #044CC8;
+}
+.userbutton{
+    size: 35;
+}
+#logo{
+    max-height: 35px;
+    padding-right: 30px;
+}
+.user{
+    padding-left: 1800%;
+}

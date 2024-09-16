@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Môn Học</title>
+    <link rel="shortcut icon" href="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css_html/subject.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <img src="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png" alt="logo" id="logo">
+    
+        <a class="navbar-brand" href="/teacher_all_section/home_page.html">Trang chủ</a>
+    
+        <a class="nav-link staff none " href="/teacher_all_section/schedule.html" target="_blank" >Thời khóa biểu</a>
+        <a class="nav-link none now" href="/teacher_all_section/subject_for_all/document.html" id="class">Tất cả môn học</a>
+
+        <div class="userbutton-container">
+            <span class="userbutton">
+                <a class="nav-link staff none user">
+                    <img class="rounded-circle" src="/image/anonymous.png" width="35px">
+                </a>
+            </span>
+        </div>
+        <a id="option"> <i class="fa-solid fa-bars" style="padding-left: 920px;"></i></a>   
+    </nav>
+    <div id="myModal" class="modal">
+        <div class="container rounded bg-white mt-5 mb-5">
+            <div >
+                <div class="p-3 py-5" style="padding-top: 1rem !important; padding-bottom: 1rem !important;">
+                  <a href="/teacher_all_section/profile_for_all/profile.html" class="option" id="profile">Thông tin cá nhân</a>
+                  <br>
+                  <a href="/teacher_all_section/Home.html" class="option" id="logout">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div style="padding: 40px;">
+        <h2 style="text-align: center; color: red;">Danh sách sinh viên</h2>
+        <table id="table">
+            <thead>
+            <tr>
+                <th style="width: 60px; text-align: center;">STT</th>
+                <th style="width: 300px; text-align: center;">Họ và tên</th>
+                <th style="width: 60px; text-align: center;">Mã số sinh viên</th>
+                <th style="width: 60px; text-align: center;">Điểm</th>
+            </tr>
+            <thead>
+            <tbody id="data">
+            </tbody>
+        </table>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="container rounded bg-white mt-5 mb-5">
+            <div >
+                <div class="p-3 py-5" style="padding-top: 1rem !important; padding-bottom: 1rem !important;">
+                  <a href="/teacher_all_section/profile_for_all/profile.html" class="option" id="profile">Thông tin cá nhân</a>
+                  <br>
+                  <a href="/teacher_all_section/Home.html" class="option" id="logout">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button id="Students">Cập nhật kết quả môn học</button>
+    <button id="document">Xem tất cả tài liệu</button>
+
+    <script type="module" src="/teacher_all_section/subject_for_all/subject.js"></script>
+    <script src="/teacher_all_section/logout.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,174 @@
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thay đổi thông tin cá nhân</title>
+        <link rel="shortcut icon"
+            href="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css_html/change-profile.css">
+
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <img src="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png"
+                alt="logo" id="logo">
+
+            <a class="navbar-brand" href="/teacher_all_section/teacher_home_page.html">Trang chủ</a>
+
+            <a class="nav-link staff none" href="/teacher_all_section/profile_for_all/profile.html"
+                target="_blank">Thông tin cá nhân</a>
+            <a class="nav-link staff none" href="schedule.html" target="_blank">Thời khóa biểu</a>
+            <a class="nav-link none" href="/teacher_all_section/subject_for_all/all_subjects.html" id="class">Lớp
+                học</a>
+
+            <a class="nav-link admin none" href="/teacher_all_section/management_course/all_course.html">Tất cả khóa
+                học</a>
+            <a class="nav-link admin none" href="/teacher_all_section//management_course/all_student.html">Danh sách
+                sinh viên</a>
+            <a class="nav-link admin none" href="/teacher_all_section/management_course/all_teacher.html">Danh sách
+                giảng viên</a>
+
+            <a class="nav-link none" href="/teacher_all_section/student_all_section/all_course.html" id="course">Tất cả
+                môn học</a>
+
+        </nav>
+
+
+        <div class="container rounded bg-white mt-5 mb-5">
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img
+                            class="rounded-circle mt-5" width="150px" src="/image/anonymous.png"><span
+                            class="font-weight-bold">Mã nhân viên:</span>
+                        <div class="text-black-50" id="id"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-5 border-right">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right" style="text-align: left;">Thông tin cá nhân</h4>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12"><label class="labels">Họ và tên</label><input type="text"
+                                    class="form-control" value="" id="name"></div>
+                            <div class="col-md-12"><label class="labels">Giới tính</label><select class="form-control"
+                                    id="sex">
+                                    <option value="">--chọn--</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                </select></div>
+                            <div class="col-md-12"><label class="labels">Năm sinh</label><input type="date"
+                                    class="form-control" value="" id="DateofBirth"></div>
+                            <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text"
+                                    class="form-control" value="" id="PhoneNumber"></div>
+                            <div class="col-md-12"><label class="labels">Email</label><input type="text"
+                                    class="form-control" value="" id="email"></div>
+                            <div class="col-md-12"><label class="labels">Học vị</label><select type="text"
+                                    class="form-control" value="" id="rank">
+                                    <option value="">--chọn--</option>
+                                    <option value="Cử nhân">Cử nhân</option>
+                                    <option value="Thạc sĩ">Thạc sĩ</option>
+                                    <option value="Tiến sĩ">Tiến sĩ</option>
+                                </select></div>
+                            <div class="col-md-12"><label class="labels">Học hàm</label><select type="text"
+                                    class="form-control" value="" id="Arank">
+                                    <option value="">Không</option>
+                                    <option value="Phó Giáo sư">Phó Giáo sư</option>
+                                    <option value="Giáo sư">Giáo sư</option>
+                                </select></div>
+                        </div>
+                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button"
+                                id="btnConfirm">Thay đổi</button></div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-3 py-5">
+                        <div class="col-md-12"><br><br><br><br><br></div>
+                        <img src="/image/logo.jpg" class="img">
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+            import { getDatabase, ref, set, onValue, child, push, get } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyBsfqC3q_PzXZZOAksa2JXva6I8cIJnHBY",
+                authDomain: "advancedprogrammingassig-ff7c2.firebaseapp.com",
+                databaseURL: "https://advancedprogrammingassig-ff7c2-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "advancedprogrammingassig-ff7c2",
+                storageBucket: "advancedprogrammingassig-ff7c2.appspot.com",
+                messagingSenderId: "284171849969",
+                appId: "1:284171849969:web:9e852a830806ad97871950",
+                measurementId: "G-VVCXTQCT7B"
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase();
+
+            let postion = localStorage.getItem('user');
+            let id = localStorage.getItem("id");
+            console.log(`User ${postion} has logged in`);
+            console.log(`ID of user ${id}`);
+
+            document.getElementById('id').innerHTML = id;
+
+            if (postion !== 'teachersList') {
+                document.getElementById('rank').hidden = true;
+                document.getElementById('Arank').hidden = true;
+            }
+
+            document.getElementById('btnConfirm').onclick = function () {
+                var Name = document.getElementById("name").value;
+                var PhoneNumber = document.getElementById("PhoneNumber").value;
+                var sex = document.getElementById("sex").value;
+                var DateofBirth = document.getElementById("DateofBirth").value;
+                var email = document.getElementById("email").value;
+                var Rank, Arank;
+
+                if (postion === 'teachersList') {
+                    Rank = document.getElementById("rank").value;
+                    Arank = document.getElementById("Arank").value;
+                }
+
+                if (Name == "" || PhoneNumber == "" || email == "" || DateofBirth == "" || sex == "" || (postion === 'teachersList' && (Rank == "" || Arank == "")))
+                    alert("Vui lòng nhập đầy đủ thông tin !!!!")
+                else {
+                    var path = postion === 'teachersList' ? `/management/teachersList/${id}/profile` : `/management/all_students/${id}/profile`;
+                    var data = {
+                        name: Name,
+                        email: email,
+                        dob: DateofBirth,
+                        phone: PhoneNumber,
+                        gender: sex
+                    };
+
+                    if (postion === 'teachersList') {
+                        data.rank = Rank;
+                        data.arank = Arank;
+                    }
+
+                    set(ref(db, path), data)
+                        .catch((error) => {
+                            console.error("Error writing to Firebase: ", error);
+                        });
+
+                    alert('Thông tin đã được thay đổi')
+                }
+            }
+
+
+        </script>
+    </body>
+
+</html>

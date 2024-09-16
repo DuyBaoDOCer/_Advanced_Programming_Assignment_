@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thêm môn học</title>
+    </head>
+
+    <body>
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-analytics.js";
+            import { getDatabase, ref, set, child, get, remove, push } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyBsfqC3q_PzXZZOAksa2JXva6I8cIJnHBY",
+                authDomain: "advancedprogrammingassig-ff7c2.firebaseapp.com",
+                databaseURL: "https://advancedprogrammingassig-ff7c2-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "advancedprogrammingassig-ff7c2",
+                storageBucket: "advancedprogrammingassig-ff7c2.appspot.com",
+                messagingSenderId: "284171849969",
+                appId: "1:284171849969:web:9e852a830806ad97871950",
+                measurementId: "G-VVCXTQCT7B"
+            };
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            const db = getDatabase();
+
+            let id = document.createElement('input');
+            id.type = 'text';
+            id.id = "course";
+            id.placeholder = 'Course ID';
+            id.className = 'form-control'; // Add Bootstrap class
+
+            let idLabel = document.createElement('label'); // Create a label for the input
+            idLabel.innerHTML = 'Mã môn';
+            idLabel.htmlFor = id.id;
+
+            let name = document.createElement('input');
+            name.type = 'text';
+            name.placeholder = 'Tên môn học';
+            name.className = 'form-control'; // Add Bootstrap class
+
+            let nameLabel = document.createElement('label'); // Create a label for the input
+            nameLabel.innerHTML = 'Tên môn học  ';
+            nameLabel.htmlFor = name.id;
+
+            let update_button = document.createElement('button');
+            update_button.className = 'btn btn-primary'; // Add Bootstrap classes
+            update_button.innerHTML = 'Thêm     ';
+
+            let creditsLabel = document.createElement('label'); // Create a label for the input
+            creditsLabel.innerHTML = 'Số tín chỉ';
+            let credits = document.createElement('select');
+            credits.className = 'form-control'; // Add Bootstrap class
+            document.body.appendChild(creditsLabel);
+            document.body.appendChild(credits);
+
+            let form = document.createElement('div');
+            form.className = 'form-group'; // Add Bootstrap class
+
+            let day = document.createElement('input');
+            day.type = "number";
+            day.className = 'form-control'; // Add Bootstrap class
+
+            let dayLabel = document.createElement('label'); // Create a label for the input
+            dayLabel.innerHTML = 'Thứ';
+            dayLabel.htmlFor = day.id;
+
+            let lesson_time = document.createElement('input');
+            lesson_time.type = "text";
+            lesson_time.placeholder = "VD: 1-3: tiết 1 tới tiết 3";
+            lesson_time.className = 'form-control'; // Add Bootstrap class
+
+            let lessonTimeLabel = document.createElement('label'); // Create a label for the input
+            lessonTimeLabel.innerHTML = 'Tiết';
+            lessonTimeLabel.htmlFor = lesson_time.id;
+
+            form.appendChild(dayLabel);
+            form.appendChild(day);
+            form.appendChild(lessonTimeLabel);
+            form.appendChild(lesson_time);
+            document.body.appendChild(form);
+
+            for (let i = 1; i <= 4; i++) {
+                let option = document.createElement('option');
+                option.value = i;
+                option.text = i.toString();
+                credits.appendChild(option);
+            }
+
+            document.body.appendChild(idLabel);
+            document.body.appendChild(id);
+            document.body.appendChild(nameLabel);
+            document.body.appendChild(name);
+            document.body.appendChild(update_button);
+
+            update_button.onclick = function () {
+                if (!id.value || !name.value) {
+                    alert('Please fill out all fields!')
+                }
+                else {
+                    let date;
+                    var num = day.value;
+                    if (num >= 2 && num < 7) {
+                        date = true;
+                    } else {
+                        date = false;
+                    }
+
+                    let time;
+                    var value = lesson_time.value;
+                    var parts = value.split('-');
+                    if (parts.length === 2) {
+                        var num1 = parseInt(parts[0], 10);
+                        var num2 = parseInt(parts[1], 10);
+                        if (num1 >= 1 && num1 < 14 && num2 >= 1 && num2 < 14 && num1 < num2) {
+                            time = true;
+                        }
+                        else {
+                            time = false;
+                        }
+                    }
+                    else {
+                        time = false;
+                    }
+
+                    if (date && time) {
+                        let scheduleRef = ref(db, `management/coursesList/${id.value}/schedule`);
+                        set(scheduleRef, {
+                            day: day.value,
+                            time: lesson_time.value
+                        });
+
+                        lesson_time.value = "";
+                        day.value = "";
+                        set(child(dbRef, `/${id.value}`), {
+                            name: name.value,
+                            credits: credits.value,
+                            schedule: {
+                                day: day.value,
+                                time: lesson_time.value
+                            },
+                            teacher: ""
+                        })
+                            .then(() => {
+                                alert("Successfully added!");
+                                location.reload();
+                            });
+                    }
+                    else alert('Thông tin không hợp lệ')
+                }
+            }
+
+
+        </script>
+
+    </body>
+
+</html>

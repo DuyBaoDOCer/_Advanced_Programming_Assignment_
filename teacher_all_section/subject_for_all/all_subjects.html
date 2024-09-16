@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tất cả lớp học</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link rel="shortcut icon"
+            href="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png">
+        <link rel="stylesheet" href="/css_html/all_subjects.css">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <img src="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png"
+                alt="logo" id="logo">
+
+            <a class="navbar-brand" href="/teacher_all_section/home_page.html">Trang chủ</a>
+
+            <a class="nav-link staff none" href="/teacher_all_section/schedule.html" target="_blank">Thời khóa biểu</a>
+            <a class="nav-link none now" href="/teacher_all_section/subject_for_all/all_subjects.html" id="class">Lớp
+                học</a>
+
+
+            <div class="userbutton-container">
+                <span class="userbutton">
+                    <a class="nav-link user">
+                        <img class="rounded-circle" src="/image/anonymous.png" width="35px">
+                    </a>
+                </span>
+            </div>
+            <a id="option"> <i class="fa-solid fa-bars" style="padding-left: 920px;"></i></a>
+        </nav>
+
+        <br>
+
+        <div id="myDiv" class="grid container" style="--bs-columns: 18; --bs-gap: .5rem; border-bottom: 0.05px solid;">
+            <h2>Lớp học của tôi</h2>
+            <br><br>
+
+        </div>
+        <div id="myModal" class="modal">
+            <div class="container rounded bg-white mt-5 mb-5">
+                <div>
+                    <div class="p-3 py-5" style="padding-top: 1rem !important; padding-bottom: 1rem !important;">
+                        <a href="/teacher_all_section/profile_for_all/profile.html" class="option" id="profile">Thông
+                            tin cá nhân</a>
+                        <br>
+                        <a href="/teacher_all_section/Home.html" class="option" id="logout">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+    <script src="/teacher_all_section/logout.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-analytics.js";
+        import { getDatabase, ref, set, onValue, child, push, get } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsfqC3q_PzXZZOAksa2JXva6I8cIJnHBY",
+            authDomain: "advancedprogrammingassig-ff7c2.firebaseapp.com",
+            databaseURL: "https://advancedprogrammingassig-ff7c2-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "advancedprogrammingassig-ff7c2",
+            storageBucket: "advancedprogrammingassig-ff7c2.appspot.com",
+            messagingSenderId: "284171849969",
+            appId: "1:284171849969:web:9e852a830806ad97871950",
+            measurementId: "G-VVCXTQCT7B"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase();
+
+        let myDiv = document.getElementById('myDiv');
+        const dbRef = ref(db, 'management/teachersList/PR0987/all_course');
+        onValue(dbRef, (snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                console.log(childSnapshot.key);
+                const childKey = childSnapshot.key;
+                const childData = childSnapshot.val();
+
+                let course = document.createElement('a');
+                course.className = 'course';
+                // course.style = "grid-column: span 14;";
+                course.id = childKey;
+
+                const cRef = ref(db, `management/coursesList/${childKey}`);
+                onValue(cRef, (csnapt) => {
+                    console.log(csnapt.val());
+                    course.innerHTML += `${csnapt.val().name}(${childKey})`;
+                });
+
+                myDiv.appendChild(course);
+                let br = document.createElement('br');
+                myDiv.appendChild(br);
+
+                document.getElementById(childKey).onclick = function () {
+                    localStorage.setItem('key', JSON.stringify(childKey));
+                    console.log(course.innerHTML);
+                    localStorage.setItem('course', JSON.stringify(course.innerHTML));
+                    localStorage.setItem('config', 'teacher');
+                    window.location.href = "/teacher_all_section/subject_for_all/subject.html";
+                }
+
+            });
+        }, {
+            onlyOnce: true
+        });
+
+
+    </script>
+
+</html>

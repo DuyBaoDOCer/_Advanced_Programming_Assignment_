@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Đăng nhập</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="shortcut icon"
+            href="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png">
+
+    </head>
+
+    <body>
+        <style>
+            body {
+                color: #000;
+                overflow-x: hidden;
+                height: 100%;
+                background-color: #B0BEC5;
+                background-repeat: no-repeat;
+            }
+
+            .card0 {
+                box-shadow: 0px 4px 8px 0px #757575;
+                border-radius: 0px;
+            }
+
+            .card2 {
+                margin: 0px 40px;
+            }
+
+            .logo {
+                width: 200px;
+                height: 100px;
+                margin-top: 20px;
+                margin-left: 35px;
+            }
+
+            .image {
+                width: 360px;
+                height: 280px;
+            }
+
+            .border-line {
+                border-right: 1px solid #EEEEEE;
+            }
+
+            .line {
+                height: 1px;
+                width: 45%;
+                background-color: #E0E0E0;
+                margin-top: 10px;
+            }
+
+            .or {
+                width: 10%;
+                font-weight: bold;
+            }
+
+            .text-sm {
+                font-size: 14px !important;
+            }
+
+
+            input,
+            textarea {
+                padding: 10px 12px 10px 12px;
+                border: 1px solid lightgrey;
+                border-radius: 2px;
+                margin-bottom: 5px;
+                margin-top: 2px;
+                width: 100%;
+                box-sizing: border-box;
+                color: #2C3E50;
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
+
+            input:focus,
+            textarea:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: 1px solid #304FFE;
+                outline-width: 0;
+            }
+
+            button:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                outline-width: 0;
+            }
+
+            a {
+                color: inherit;
+                cursor: pointer;
+            }
+
+            .btn-blue {
+                background-color: #006DCC;
+                width: 150px;
+                color: #fff;
+                border-radius: 2px;
+            }
+
+            .btn-blue:hover {
+                color: #fff;
+                background-color: #1A237E;
+                cursor: pointer;
+            }
+
+            .bg-blue {
+                color: #fff;
+                background-color: #006DCC;
+            }
+
+            @media screen and (max-width: 991px) {
+                .logo {
+                    margin-left: 0px;
+                }
+
+                .image {
+                    width: 300px;
+                    height: 220px;
+                }
+
+                .border-line {
+                    border-right: none;
+                }
+
+                .card2 {
+                    border-top: 1px solid #EEEEEE !important;
+                    margin: 0px 15px;
+                }
+            }
+        </style>
+        <div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+            <div class="card card0 border-0">
+                <div class="row d-flex">
+                    <div class="col-lg-6">
+                        <div class="card1 pb-5" style="height: 640px;">
+                            <div class="row">
+                                <img src="/image/minilogo.png" class="logo">
+                            </div>
+                            <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
+                                <img src="/image/logo.jpg" class="image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card2 card border-0 px-4 py-5">
+                            <div class="row mb-4 px-3">
+                                <h1 class="mb-0 mr-4 mt-2">Đăng nhập</h1>
+                            </div>
+                            <div class="row px-3">
+                                <label class="mb-1">
+                                    <h6 class="mb-0 text-sm">Tài Khoản</h6>
+                                </label>
+                                <input class="mb-4" id="user" placeholder="Tài khoản">
+                            </div>
+                            <div class="row px-3">
+                                <label class="mb-1">
+                                    <h6 class="mb-0 text-sm">Mật khẩu</h6>
+                                </label>
+                                <input type="password" id="password" placeholder="Mật Khẩu">
+                            </div>
+                            <div class="row mb-3 px-3">
+                                <button id="login" class="btn btn-blue text-center">Đăng nhập</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <script type="module">
+                import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+                import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBsfqC3q_PzXZZOAksa2JXva6I8cIJnHBY",
+                    authDomain: "advancedprogrammingassig-ff7c2.firebaseapp.com",
+                    databaseURL: "https://advancedprogrammingassig-ff7c2-default-rtdb.asia-southeast1.firebasedatabase.app",
+                    projectId: "advancedprogrammingassig-ff7c2",
+                    storageBucket: "advancedprogrammingassig-ff7c2.appspot.com",
+                    messagingSenderId: "284171849969",
+                    appId: "1:284171849969:web:9e852a830806ad97871950",
+                    measurementId: "G-VVCXTQCT7B"
+                };
+                // Initialize Firebase
+                const app = initializeApp(firebaseConfig);
+                const db = getDatabase(app);
+
+                document.getElementById("login").onclick = async function () {
+                    const username = document.getElementById("user").value;
+                    const password = document.getElementById("password").value;
+                    const dbRef = ref(db);
+
+                    try {
+                        const snapshot = await get(child(dbRef, `login/username/${username}`));
+                        if (snapshot.exists() && password === snapshot.val()) {
+                            if (username === "teacher@hcmut") {
+                                localStorage.setItem("user", "teachersList");
+                                localStorage.setItem("id", "PR0987");
+                            } else if (username === "student@hcmut") {
+                                localStorage.setItem("user", "all_students");
+                                localStorage.setItem("id", "ST1234");
+                            } else {
+                                localStorage.removeItem("user");
+                                localStorage.removeItem("id");
+                            }
+                            window.location.href = "/teacher_all_section/home_page.html";
+                        } else {
+                            alert("Tên đăng nhập hoặc mật khẩu không đúng!");
+                        }
+                    } catch (error) {
+                        console.error("Lỗi khi đăng nhập:", error);
+                        alert("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
+                    }
+                };
+
+            </script>
+    </body>
+
+</html>

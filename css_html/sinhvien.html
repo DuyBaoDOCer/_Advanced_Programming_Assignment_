@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="styles.css">
+
+<head>
+    <title>
+        Sinh viên
+    </title>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="#info">Thông tin sinh viên</a></li>
+            <li><a href="#time">Thời khóa biểu</a></li>
+            <li><a href="#exam">Lịch thi</a></li>
+            <li><a href="#result">Bảng điểm</a></li>
+            <li><a href="#course">Khóa học</a></li>
+            <li><a href="#reg">Đăng ký môn học</a></li>
+        </ul>
+    </nav>
+
+    <!--Thong tin-->
+    <section id="info">
+        <h1>THÔNG TIN SINH VIÊN</h1>
+        <div class="stuInfo">
+            <div class="row">
+                <div class="column">
+                    <table>
+                        <tr>
+                            <th>Họ:</th>
+                            <td><input type="text" placeholder="Ví dụ: Nguyễn Văn"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Tên:</th>
+                            <td><input type="text" placeholder="Ví dụ: A"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Ngày/tháng/năm sinh:</th>
+                            <td><input type="date"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Giới tính:</th>
+                            <td>
+                                <select name="gender">
+                                    <option>Chọn giới tính</option>
+                                    <option>Nam</option>
+                                    <option>Nữ</option>
+                                    <option>Khác</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Số điện thoại:</th>
+                            <td><input type="text" placeholder="Ví dụ: 0123456789"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="column">
+                    <table>
+                        <tr>
+                            <th>Mã số sinh viên:</th>
+                            <td><input type="text" placeholder="Ví dụ: 123456"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Ảnh thẻ:</th>
+                            <td><input type="file" id="myFile" name="filename"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div><button>Submit</button></div>
+
+    </section>
+
+    <section id="time">
+        <h1>THỜI KHÓA BIỂU</h1>
+        <select>
+            <option>Tất cả học kỳ</option>
+        </select>
+        <div class="timetable">
+            <table>
+                <tr>
+                    <th>Mã môn học</th>
+                    <th>Tên môn học</th>
+                    <th>Ngày</th>
+                    <th>Giờ</th>
+                    <th>Phòng</th>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Mã môn học"></td>
+                    <td><input type="text" placeholder="Tên môn học"></td>
+                    <td><input type="text" placeholder="Ngày"></td>
+                    <td><input type="text" placeholder="Giờ"></td>
+                    <td><input type="text" placeholder="Phòng"></td>
+                </tr>
+            </table><button>Submit</button>
+        </div>
+
+    </section>
+
+    <section id="exam">
+        <h1>LỊCH THI</h1>
+
+        <div>
+            <h2>Kiểm tra giữa kỳ</h2>
+            <select>
+                <option>Tất cả học kỳ</option>
+                <option></option>
+                <option></option>
+                <option></option>
+            </select>
+            <table border="1">
+                <tr>
+                    <th>STT</th>
+                    <th>Mã môn thi</th>
+                    <th>Tên môn thi</th>
+                    <th>Ngày thi</th>
+                    <th>Giờ thi</th>
+                    <th>Phòng thi</th>
+                </tr>
+                <tr>
+                    <th><input type="text" placeholder="STT"></th>
+                    <th><input type="text" placeholder="Mã môn thi"></th>
+                    <th><input type="text" placeholder="Tên môn thi"></th>
+                    <th><input type="text" placeholder="Ngày thi"></th>
+                    <th><input type="text" placeholder="Giờ thi"></th>
+                    <th><input type="text" placeholder="Phòng thi"></th>
+                </tr>
+            </table><button>Submit</button>
+        </div>
+
+        <div>
+            <h2>Thi cuối kỳ</h2>
+            <select>
+                <option>Tất cả học kỳ</option>
+                <option></option>
+                <option></option>
+                <option></option>
+            </select>
+            <table border="1" name="">
+                <tr>
+                    <th>STT</th>
+                    <th>Mã môn thi</th>
+                    <th>Tên môn thi</th>
+                    <th>Ngày thi</th>
+                    <th>Giờ thi</th>
+                    <th>Phòng thi</th>
+                </tr>
+                <tr>
+                    <th><input type="text" placeholder="STT"></th>
+                    <th><input type="text" placeholder="Mã môn thi"></th>
+                    <th><input type="text" placeholder="Tên môn thi"></th>
+                    <th><input type="text" placeholder="Ngày thi"></th>
+                    <th><input type="text" placeholder="Giờ thi"></th>
+                    <th><input type="text" placeholder="Phòng thi"></th>
+                </tr>
+            </table><button>Submit</button>
+
+        </div>
+    </section>
+
+    <section id="result">
+        <h1>BẢNG ĐIỂM</h1>
+        <div>
+            <h2>Chương trình đào tạo</h2>
+            <table border="1" name="">
+                <tr>
+                    <th>STT</th>
+                    <th>Mã môn học</th>
+                    <th>Tên môn thi</th>
+                    <th>Điểm tổng kết</th>
+                    <th>Điểm chữ</th>
+                </tr>
+                <tr>
+                    <th><input type="text" placeholder="STT"></th>
+                    <th><input type="text" placeholder="Mã môn học"></th>
+                    <th><input type="text" placeholder="Tên môn học"></th>
+                    <th><input type="text" placeholder="Điểm tổng kết"></th>
+                    <th><input type="text" placeholder="Điểm chữ"></th>
+            </table><button>Submit</button>
+        </div>
+
+        <div>
+            <h2>GPA</h2>
+            <button>Submit</button>
+        </div>
+
+    </section>
+
+    <section id="course">
+        <h1>KHÓA HỌC</h1>
+        <button>Submit</button>
+    </section>
+
+    <section id="reg">
+        <h1>ĐĂNG KÝ MÔN HỌC</h1>
+        <div class="search">
+            <input type="text" placeholder="Nhập mã môn học" />
+            <button>Submit</button>
+        </div>
+    </section>
+</body>
+
+</html>

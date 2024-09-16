@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tài liệu môn học</title>
+        <link rel="shortcut icon"
+            href="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css_html/subject.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <img src="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png"
+                alt="logo" id="logo">
+
+            <a class="navbar-brand" href="/teacher_all_section/home_page.html">Trang chủ</a>
+
+            <a class="nav-link staff none " href="/teacher_all_section/schedule.html" target="_blank">Thời khóa biểu</a>
+            <a class="nav-link none now" href="/teacher_all_section/subject_for_all/all_subjects.html" id="class">Lớp
+                học</a>
+
+            <div class="userbutton-container">
+                <span class="userbutton">
+                    <a class="nav-link staff none user">
+                        <img class="rounded-circle" src="/image/anonymous.png" width="35px">
+                    </a>
+                </span>
+            </div>
+            <a id="option"> <i class="fa-solid fa-bars" style="padding-left: 920px;"></i></a>
+        </nav>
+
+        <br>
+        <br>
+        <h3 id="course"></h3>
+        <br>
+        <div class="list">
+        </div>
+        <br>
+        <div id="myModal" class="modal ">
+            <div class="container rounded bg-white mb-5 mt-5 ">
+                <div>
+                    <div class="p-3 py-5" style="padding-top: 1rem !important; padding-bottom: 1rem !important;">
+                        <div><a href="/teacher_all_section/profile_for_all/profile.html" class="option"
+                                id="profile">Thông tin cá nhân</a></div>
+                        <div><a href="/teacher_all_section/Home.html" class="option" id="logout">Đăng xuất</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <script src="/teacher_all_section/logout.js"></script>
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+            import { getStorage, ref, getDownloadURL, listAll, uploadBytes, deleteObject } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-storage.js";
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyBsfqC3q_PzXZZOAksa2JXva6I8cIJnHBY",
+                authDomain: "advancedprogrammingassig-ff7c2.firebaseapp.com",
+                databaseURL: "https://advancedprogrammingassig-ff7c2-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "advancedprogrammingassig-ff7c2",
+                storageBucket: "advancedprogrammingassig-ff7c2.appspot.com",
+                messagingSenderId: "284171849969",
+                appId: "1:284171849969:web:9e852a830806ad97871950",
+                measurementId: "G-VVCXTQCT7B"
+            };
+            const app = initializeApp(firebaseConfig);
+            const storage = getStorage(app, "gs://btl01-3a6db.appspot.com");
+            let key = localStorage.getItem('key');
+            key = key.replace(/"/g, ''); // remove double quotes if any
+            console.log(key);
+            let course = localStorage.getItem('course');
+            course = course.replace(/"/g, ''); // remove double quotes if any
+            document.getElementById("course").innerHTML += `${course}`;
+
+            let postion = localStorage.getItem('user');
+            let id = localStorage.getItem("id");
+            console.log(`User ${postion} has logged in`);
+            console.log(`ID of user ${id}`);
+
+            function delete_Document(fileName) {
+                const fileRef = ref(storage, 'subjects/' + key + '/' + fileName);
+                deleteObject(fileRef).then(() => {
+                    alert('File deleted successfully');
+                    printList(true);
+                }).catch((error) => {
+                    console.error('Error deleting file:', error);
+                });
+            }
+
+            function printList(update) {
+                const listRef = ref(storage, 'subjects/' + key);
+                listAll(listRef)
+                    .then((res) => {
+                        const promises = res.items.map((itemRef) => {
+                            return getDownloadURL(itemRef).then((url) => {
+                                // Return an object with the name and URL of each file
+                                return { name: itemRef.name, url: url };
+                            });
+                        });
+                        return Promise.all(promises);
+                    })
+                    .then((files) => {
+                        // Sort the files by their names
+                        files.sort((a, b) => a.name.localeCompare(b.name));
+                        const listElement = document.querySelector('.list');
+                        listElement.innerHTML = ''; // Clear the list
+                        // Convert the sorted files into HTML links and join them into a single string
+                        const list = files.map((file) => {
+                            // Create a new div for each file
+                            const fileDiv = document.createElement('div');
+                            fileDiv.className = 'list-group-item d-flex justify-content-between align-items-center';
+                            // Create a link to the file
+                            const fileLink = document.createElement('a');
+                            fileLink.href = file.url;
+                            fileLink.textContent = file.name;
+                            fileLink.className = 'mr-3';
+                            fileDiv.appendChild(fileLink);
+                            // Create a delete button
+                            if (update) {
+                                const deleteButton = document.createElement('button');
+                                deleteButton.textContent = 'Delete';
+                                deleteButton.addEventListener('click', () => {
+                                    if (confirm('Bạn có chắc là xóa tập tin này???'))
+                                        delete_Document(file.name)
+                                });
+                                fileDiv.appendChild(deleteButton);
+                            }
+
+                            // Add the div to the list
+                            listElement.appendChild(fileDiv);
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Error listing files and folders:', error);
+                    });
+            }
+            printList(false);
+            if (postion !== 'all_students') {
+                let update_document = document.createElement('a');
+                update_document.innerHTML = "Chỉnh sửa";
+                //change_profile.href = "/teacher_all_section/change-info.html";
+                update_document.id = "update_document";
+                document.body.appendChild(update_document)
+                document.getElementById("update_document").onclick = function () {
+                    printList(true);
+                    if (!document.getElementById("file")) {
+                        var fileInput = document.createElement("input");
+                        fileInput.type = "file";
+                        fileInput.id = "file";
+                        document.body.appendChild(fileInput);  // Append the upload_Button to the document
+                        var file = "";  // Declare file variable outside the function
+                        document.getElementById('file').addEventListener('change', function (e) {
+                            // Get file
+                            file = e.target.files[0];
+                        });
+
+                        var br = document.createElement("br");  // Create a line break element
+                        document.body.appendChild(br);  // Append the line break to the document
+
+                        var upload_Button = document.createElement("button");
+                        upload_Button.id = "uploadButton";
+                        upload_Button.innerText = "Tải lên";
+                        document.body.appendChild(upload_Button);  // Append the upload_Button to the document
+                        document.getElementById('uploadButton').addEventListener('click', function () {
+                            if (file !== "") {
+                                const storageRef = ref(storage, 'subjects/' + key);
+                                const childRef = ref(storageRef, file.name);
+                                // 'file' comes from the Blob or File API
+                                uploadBytes(childRef, file).then((snapshot) => {
+                                    alert('Đã tải lên !!!');
+                                    printList(true);
+                                });
+
+                                document.getElementById('file').value = '';
+                            }
+
+                        });
+
+
+                        let saveAll = document.createElement('button');
+                        saveAll.innerHTML = "Hoàn tất";
+                        //change_profile.href = "/teacher_all_section/change-info.html";
+                        saveAll.id = "saveAll";
+                        document.body.appendChild(saveAll)
+                        document.getElementById('saveAll').addEventListener('click', function () {
+                            printList(false);
+                            saveAll.parentNode.removeChild(saveAll);
+                            upload_Button.parentNode.removeChild(upload_Button);
+                            fileInput.parentNode.removeChild(fileInput);
+                        });
+                    }
+
+                }
+            }
+
+
+        </script>
+
+    </body>
+
+</html>

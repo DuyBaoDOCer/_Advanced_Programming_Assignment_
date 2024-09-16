@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang chủ</title>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png">
+    <link rel="stylesheet" href="/css_html/homePage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+</head>
+<body>
+ 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/teacher_all_section/home_page.html">
+      <img src="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png" alt="logo" id="logo">
+  </a>
+
+    <a class="navbar-brand" href="/teacher_all_section/home_page.html">Trang chủ</a>
+
+    <a class="nav-link staff none" href="/teacher_all_section/schedule.html" >Thời khóa biểu</a>
+    <a class="nav-link none" href="/teacher_all_section/subject_for_all/all_subjects.html" id="class">Lớp học</a>
+
+    <a  class="nav-link admin none" href="/teacher_all_section/management_course/all_course.html">Khóa học</a>
+    <a  class="nav-link admin none" href="/teacher_all_section//management_course/all_student.html">Sinh viên</a>
+    <a  class="nav-link admin none" href="/teacher_all_section/management_course/all_teacher.html">Giảng viên</a>
+
+    <a  class="nav-link none"href="/teacher_all_section/student_all_section/all_course.html" id="course">Tất cả môn học</a>
+
+    <div class="userbutton-container">
+      <span class="userbutton">
+          <a class="nav-link user">
+              <img class="rounded-circle" src="/image/anonymous.png" width="35px">
+          </a>
+      </span>
+    </div>
+    <a id="option"> <i class="fa-solid fa-bars" style="padding-left: 920px;"></i></a>
+</nav>
+
+  <img id="bg" src="https://lms.hcmut.edu.vn/pluginfile.php/3/theme_academi/slide1image/1713847522/slbk.jpg" alt="Background Image" style="width: 1475px ; height: 690px;">
+
+  <div id="myModal" class="modal">
+    <div class="container rounded bg-white mt-5 mb-5">
+        <div >
+            <div class="p-3 py-5" style="padding-top: 1rem !important; padding-bottom: 1rem !important;">
+              <a href="/teacher_all_section/profile_for_all/profile.html" class="option" id="profile">Thông tin cá nhân</a>
+              <br>
+              <a href="/teacher_all_section/Home.html" class="option" id="logout">Đăng xuất</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+  <script src="/teacher_all_section/logout.js"></script>
+  <script>
+    let position = localStorage.getItem('user');
+      console.log(position);
+
+      var adminElements = document.getElementsByClassName('admin');
+      var staffElements = document.getElementsByClassName('staff');
+      var classElement = document.getElementById('class');
+      var courseElement = document.getElementById('course');
+
+      if(position === null){
+        for(var i = 0; i < staffElements.length; i++){
+          staffElements[i].style.display = 'none';
+        }
+        classElement.style.display = 'none';
+        courseElement.style.display = 'none';
+      } 
+      else{
+        for(var i = 0; i < adminElements.length; i++){
+          adminElements[i].style.display = 'none';
+        }
+
+        if(position !== 'teachersList') classElement.style.display = 'none';
+        else courseElement.style.display = 'none';
+    }
+
+  </script>
+
+  
+</body>
+</html>

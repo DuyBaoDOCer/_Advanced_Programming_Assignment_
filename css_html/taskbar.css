@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.course {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar img {
+    margin-right: 50px;
+}
+.navbar .navbar-brand {
+    margin-right: 1120px;
+    padding: 11px;
+}
+.navbar,.navbar-expand-lg, .navbar-light, .bg-light{
+    background-color: #0388B4 !important;
+   height: 7%;
+   position: fixed;
+}
+.nav-link{
+    color: #212529;
+    padding: 14px 14px;
+}
+
+.navbar-brand, .nav-link:hover{
+    color:#fff!important;
+    background-color: #044CC8;
+}
+.logo{
+    max-height: 35px;
+    padding-left: 30px;
+}

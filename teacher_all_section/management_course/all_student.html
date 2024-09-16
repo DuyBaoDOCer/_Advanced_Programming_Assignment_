@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thời khóa biểu</title>
+        <link rel="shortcut icon"
+            href="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css_html/admin.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <img src="https://lms.hcmut.edu.vn/pluginfile.php/3/core_admin/favicon/64x64/1713847522/logoBK.png"
+                alt="logo" id="logo">
+
+            <a class="navbar-brand" href="/teacher_all_section/home_page.html">Trang chủ</a>
+
+            <a class="nav-link admin none" href="/teacher_all_section/management_course/all_course.html">Khóa học</a>
+            <a class="nav-link admin none now" href="/teacher_all_section//management_course/all_student.html">Sinh
+                viên</a>
+            <a class="nav-link admin none" href="/teacher_all_section/management_course/all_teacher.html">Giảng viên</a>
+
+            <div class="userbutton-container">
+                <span class="userbutton">
+                    <a class="nav-link staff none user">
+                        <img class="rounded-circle" src="/image/anonymous.png" width="35px">
+                    </a>
+                </span>
+            </div>
+            <a id="option"> <i class="fa-solid fa-bars" style="padding-left: 920px;"></i></a>
+        </nav>
+        <div id="myModal" class="modal">
+            <div class="container rounded bg-white mt-5 mb-5">
+                <div>
+                    <div class="p-3 py-5" style="padding-top: 1rem !important; padding-bottom: 1rem !important;">
+                        <a href="/teacher_all_section/profile_for_all/profile.html" class="option" id="profile">Thông
+                            tin cá nhân</a>
+                        <br>
+                        <a href="/teacher_all_section/Home.html" class="option" id="logout">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding: 40px;">
+            <h2 style="color: rgb(58, 56, 56);">Danh sách sinh viên</h2>
+            <br>
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th style="width: 60px; text-align: center;">STT</th>
+                        <th style="width: 80px; text-align: center;">Mã nhân viên</th>
+                        <th style="width: 200px; text-align: center;">Họ và tên</th>
+                        <th style="width: 50px; text-align: center; background-color: white;"></th>
+                    </tr>
+                    <thead>
+                    <tbody id="data">
+                    </tbody>
+            </table>
+        </div>
+        <div><button id="update">Chỉnh sửa</button></div>
+
+        <div id="myInput" class="input">
+            <div class="container rounded bg-white mt-5 mb-5">
+                <div class="close">&times;</div>
+                <div>
+                    <br>
+                    <h2 style="color: grey;">Thêm sinh viên</h2>
+                    <br>
+                    <div class="p-3 py-5" style="padding-top: 0rem !important;">
+                        <div class="mt-3">
+                            <div class="col-md-12"><label class="labels">Họ và tên</label><input type="text"
+                                    class="form-control" value="" id="name_in"></div>
+                            <div class="col-md-12"><label class="labels">Giới tính</label><select class="form-control"
+                                    id="sex">
+                                    <option value="">--chọn--</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                </select></div>
+                            <div class="col-md-12"><label class="labels">Mã số sinh viên</label><input type="text"
+                                    class="form-control" value="" id="id"></div>
+                        </div>
+                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button"
+                                id="btnConfirm">Thêm</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </body>
+    <script src="/teacher_all_section/logout.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-analytics.js";
+        import { getDatabase, ref, set, onValue, child, push, get, remove } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsfqC3q_PzXZZOAksa2JXva6I8cIJnHBY",
+            authDomain: "advancedprogrammingassig-ff7c2.firebaseapp.com",
+            databaseURL: "https://advancedprogrammingassig-ff7c2-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "advancedprogrammingassig-ff7c2",
+            storageBucket: "advancedprogrammingassig-ff7c2.appspot.com",
+            messagingSenderId: "284171849969",
+            appId: "1:284171849969:web:9e852a830806ad97871950",
+            measurementId: "G-VVCXTQCT7B"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase();
+
+        function deleteInCourse(id) {
+            const dbRef = ref(db);
+            let courseIds;
+            get(child(dbRef, `/management/all_students/${id}`)).then((snapshot) => {
+                courseIds = Object.keys(snapshot.val().course || {});
+                for (let i in courseIds) {
+                    remove(child(dbRef, `/management/coursesList/${courseIds[i]}/studensList/${id}`))
+                    console.log(courseIds[i]);
+                }
+
+
+            });
+
+        }
+
+        function printList(adjust) {
+            const dbRef = ref(db, '/management/all_students');
+            let i = 1;
+            //console.log("Key: ", childKey, " Data: ", childData);
+            const table = document.getElementById("table");
+            const tbody = document.getElementById("data");
+            tbody.innerHTML = "";
+
+            onValue(dbRef, (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const childKey = childSnapshot.key;
+                    const childName = childSnapshot.val().profile.name;
+
+                    const row = document.createElement("tr");
+
+                    let index = document.createElement("td");
+                    index.textContent = i;
+                    let name = document.createElement("td");
+                    name.textContent = childName;
+                    let id = document.createElement("td");
+                    id.textContent = childKey;
+
+                    row.appendChild(index);
+                    row.appendChild(id);
+                    row.appendChild(name);
+
+                    if (adjust) {
+                        let dlb = document.createElement("td");
+                        let btnDelete = document.createElement('button');
+                        btnDelete.innerText = "Xóa sinh viên";
+                        btnDelete.onclick = function () {
+                            // deleteInCourse(childKey);
+                            if (confirm('Bạn có chắc muốn xóa sinh viên này')) {
+                                let studentRef = ref(db, `management/all_students`);
+                                remove(child(studentRef, `${childKey}`));
+                                printList(true);
+                            }
+
+                        }
+                        row.appendChild(dlb).appendChild(btnDelete);
+                    }
+
+                    tbody.appendChild(row);
+                    i++;
+
+
+                });
+            }, {
+                onlyOnce: true
+            });
+        }
+
+        printList(false);
+
+        let adjust = document.getElementById('update');
+        adjust.onclick = function () {
+            printList(true);
+
+            let add = document.createElement('button');
+            add.innerText = "Thêm sinh viên";
+            document.body.appendChild(add);
+            var modal = document.getElementById("myInput");
+
+            // // Get the button that opens the modal
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            add.onclick = function () {
+                // When the user clicks the button, open the modal 
+                //btn.onclick = function() {
+                modal.style.display = "block";
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function () {
+                    modal.style.display = "none";
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+                let stuId = document.getElementById('id');
+                let name = document.getElementById('name_in');
+                let gender = document.getElementById('sex');
+
+                document.getElementById('btnConfirm').onclick = async function () {
+                    if (stuId.value === "" && name.value === "") alert("Vui lòng nhập đầy đủ thông tin ")
+                    else {
+                        let value = stuId.value;
+                        let pattern = /^ST\d{4}$/;
+                        if (!pattern.test(value)) {
+                            alert('Vui lòng nhập đúng định dạng. VD: ST1234');
+                        }
+                        else {
+                            get(child(ref(db), `management/all_students/${stuId.value}`)).then((snapshot) => {
+                                if (snapshot.exists()) alert("Mã số sinh viên đã tồn tại");
+                                else {
+                                    set(ref(db, 'management/all_students/' + stuId.value), {
+                                        profile: {
+                                            name: name.value,
+                                        }
+                                    });
+                                    alert("Thêm thành công!!");
+                                    stuId.value = "";
+                                    name.value = "";
+                                    printList(true);
+                                }
+                            });
+                        }
+                    }
+                }
+
+
+
+
+                // document.body.appendChild(stuId);
+                //document.body.appendChild(name);
+                //document.body.appendChild(ok);
+
+
+
+            }
+
+            let done = document.createElement('button');
+            done.innerText = "Hoàn Thành";
+            done.onclick = function () {
+                location.reload();
+            }
+            document.body.appendChild(done);
+        }
+
+
+
+    </script>
+
+    </body>
+
+</html>
